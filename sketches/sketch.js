@@ -212,43 +212,43 @@ function setup() {
   noStroke();
 
   background(0);
-  new Tone.Loop((time) => {
-    fill("#fcc8ff");
-    rect(random(windowWidth), random(windowHeight), 70, 50);
-  }, 19.7).start(4);
-  new Tone.Loop((time) => {
-    fill("#f9fedc");
+  // new Tone.Loop((time) => {
+  //   fill("#fcc8ff");
+  //   rect(random(windowWidth), random(windowHeight), 70, 50);
+  // }, 19.7).start(4);
+  // new Tone.Loop((time) => {
+  //   fill("#f9fedc");
 
-    rect(random(windowWidth), random(windowHeight), 50, 60);
-  }, 17.8).start(8.1);
-  new Tone.Loop((time) => {
-    fill("#c9aeff");
+  //   rect(random(windowWidth), random(windowHeight), 50, 60);
+  // }, 17.8).start(8.1);
+  // new Tone.Loop((time) => {
+  //   fill("#c9aeff");
 
-    rect(random(windowWidth), random(windowHeight), 50, 40);
-  }, 21.3).start(5.6);
-  new Tone.Loop((time) => {
-    fill("#fcc8ff");
+  //   rect(random(windowWidth), random(windowHeight), 50, 40);
+  // }, 21.3).start(5.6);
+  // new Tone.Loop((time) => {
+  //   fill("#fcc8ff");
 
-    rect(random(windowWidth), random(windowHeight), 35, 40);
-  }, 18.5).start(12.6);
-  new Tone.Loop((time) => {
-    fill("#2b90f5");
+  //   rect(random(windowWidth), random(windowHeight), 35, 40);
+  // }, 18.5).start(12.6);
+  // new Tone.Loop((time) => {
+  //   fill("#2b90f5");
 
-    rect(random(windowWidth), random(windowHeight), 30, 35);
-  }, 20.0).start(9.2);
-  new Tone.Loop((time) => {
-    fill("#d9ffd8");
+  //   rect(random(windowWidth), random(windowHeight), 30, 35);
+  // }, 20.0).start(9.2);
+  // new Tone.Loop((time) => {
+  //   fill("#d9ffd8");
 
-    rect(random(windowWidth), random(windowHeight), 25, 25);
-  }, 20.0).start(14.1);
-  new Tone.Loop((time) => {
-    fill("#ffe699");
+  //   rect(random(windowWidth), random(windowHeight), 25, 25);
+  // }, 20.0).start(14.1);
+  // new Tone.Loop((time) => {
+  //   fill("#ffe699");
 
-    rect(random(windowWidth), random(windowHeight), 20, 10);
-  }, 17.7).start(3.1);
-  new Tone.Loop((time) => {
-    fill("#fff");
+  //   rect(random(windowWidth), random(windowHeight), 20, 10);
+  // }, 17.7).start(3.1);
+  // new Tone.Loop((time) => {
+  //   fill("#fff");
 
-    rect(random(windowWidth), random(windowHeight), 100, 100);
-  }, 32).start(32);
+  //   rect(random(windowWidth), random(windowHeight), 100, 100);
+  // }, 32).start(32);
 }
