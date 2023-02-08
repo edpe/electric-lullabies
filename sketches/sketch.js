@@ -1,7 +1,6 @@
 const startAudio = () => {
   Tone.start();
   Tone.Transport.start();
-  alert("Audio started");
 };
 
 window.onload = function () {
