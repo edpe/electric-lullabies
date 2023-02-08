@@ -1,6 +1,11 @@
 const startAudio = () => {
   Tone.start();
   Tone.Transport.start();
+
+  const startButton = document.getElementById("startAudio");
+  if (startButton) {
+    startButton.style.display = "none";
+  }
 };
 
 window.onload = function () {
