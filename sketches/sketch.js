@@ -35,6 +35,7 @@ const filterEnvelope = {
 let polySynth;
 
 const FeedbackDelay = new Tone.FeedbackDelay("1m", 0.4);
+FeedbackDelay.wet.value = 0.5;
 const Reverb = new Tone.Reverb(4);
 
 const descendPolySynth = new Tone.PolySynth(Tone.Synth, {
