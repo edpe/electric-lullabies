@@ -244,6 +244,8 @@ function setup() {
     fill("#fff");
     rect(random(windowWidth), random(windowHeight), 100, 100);
   }, 32).start(32);
+}
 
+function draw() {
   background("rgba(0, 0, 0, 0.01)");
 }
