@@ -41,6 +41,8 @@ const filterEnvelope = {
   release: 1000,
 };
 
+const filter = new Tone.Filter(800, "lowpass").toDestination();
+
 const polySynth = new Tone.PolySynth(Tone.DuoSynth, {
   harmonicity: 1,
   volume: -30,
@@ -57,7 +59,7 @@ const polySynth = new Tone.PolySynth(Tone.DuoSynth, {
   vibratoRate: 0.5,
   vibratoAmount: 0.1,
   portamento: 1,
-}).chain(Reverb, Tone.Destination);
+}).chain(Reverb, filter, Tone.Destination);
 
 const bassSynth = new Tone.MonoSynth({
   oscillator: { type: "sine" },
@@ -77,23 +79,27 @@ const bassSynth = new Tone.MonoSynth({
   },
 }).chain(Reverb, Tone.Destination);
 
-const filter = new Tone.Filter(800, "lowpass").toDestination();
-
-const percussiveSynth = new Tone.MetalSynth({
-  frequency: 200,
+const squareClick = new Tone.Synth({
+  oscillator: {
+    type: "square",
+  },
   envelope: {
     attack: 0.001,
-    decay: 0.1,
-    release: 0.2,
+    decay: 0.001,
+    sustain: 0,
   },
-  harmonicity: 3.1,
-  modulationIndex: 32,
-  resonance: 2000,
-  octaves: 1.5,
-  volume: -10,
-})
-  .connect(filter)
-  .toDestination();
+}).toDestination();
+
+const sineClick = new Tone.Synth({
+  oscillator: {
+    type: "sine",
+  },
+  envelope: {
+    attack: 0.001,
+    decay: 0.001,
+    sustain: 0,
+  },
+}).toDestination();
 
 new Tone.Loop((time) => {
   polySynth.triggerAttackRelease("E3", "2m", time, 0.8);
@@ -114,21 +120,64 @@ new Tone.Sequence(
 
 new Tone.Sequence(
   (time, note) => {
-    percussiveSynth.triggerAttackRelease(note, "1m", time, 0.8);
+    sineClick.triggerAttackRelease(note, "1m", time, 0.4);
   },
-  [null, null, "E6", null, null, null, "E6", null]
+  [
+    "E1",
+    ["E2", "E3"],
+    null,
+    "E1",
+    ["E1"[("E2", "C1")]],
+    null,
+    ["E1"[("D2", "C3")]],
+    null,
+  ]
 ).start(2);
 
-const noise = new Tone.Noise("pink").connect(filter).start(2);
+// new Tone.Sequence(
+//   (time, note) => {
+//     squareClick.triggerAttackRelease(note, "1m", time, 0.8);
+//   },
+//   [
+//     "E1",
+//     ["E2", "E3"],
+//     ["E1"[("D2", "C3")]],
+//     null,
+//     "E1",
+//     null,
+//     null,
+//     ["E1"[([("E2", [("E2", "C1")])], "C1")]],
+//   ]
+// ).start(6);
 
-noise.volume.value = -26;
+const pinkNoise = new Tone.Noise("pink").connect(filter).start(2);
 
-noise.chain(Reverb, Tone.Destination);
+pinkNoise.volume.value = -50;
+
+pinkNoise.chain(Reverb, Tone.Destination);
+
+let t = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  stroke(255);
+}
 
-  noStroke();
-
+function draw() {
   background(0);
+  let spacing = 20;
+  let rows = height / spacing;
+
+  for (let y = 0; y < rows; y++) {
+    let x1 = noise(y, t) * width;
+    let y1 = y * spacing;
+    let x2 = noise(y, t + 100) * width;
+    let y2 = y * spacing;
+    let brightnessNoise = noise(y, t + 200); // Add a third noise value for the line's brightness
+    let brightness = map(brightnessNoise, 0, 1, 50, 255); // Map the noise value to a brightness range
+    stroke(brightness);
+    line(x1, y1, x2, y2);
+  }
+
+  t += 0.001;
 }
