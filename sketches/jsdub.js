@@ -17,9 +17,6 @@ window.onload = function () {
 
 Tone.Transport.bpm.value = 100;
 
-const Reverb = new Tone.Reverb(1);
-const cheby = new Tone.Chebyshev(41).toDestination();
-
 const envelope = {
   attack: 1,
   release: 4,
@@ -41,7 +38,15 @@ const filterEnvelope = {
   release: 1000,
 };
 
-const filter = new Tone.Filter(800, "lowpass").toDestination();
+const filter = new Tone.Filter(800, "lowpass");
+const reverb = new Tone.Reverb(4);
+const cheby = new Tone.Chebyshev(41);
+const widener = new Tone.StereoWidener(1);
+const autoFilter = new Tone.AutoFilter({
+  frequency: "8n",
+  baseFrequency: 800,
+  octaves: 8,
+});
 
 const polySynth = new Tone.PolySynth(Tone.DuoSynth, {
   harmonicity: 1,
@@ -59,7 +64,7 @@ const polySynth = new Tone.PolySynth(Tone.DuoSynth, {
   vibratoRate: 0.5,
   vibratoAmount: 0.1,
   portamento: 1,
-}).chain(Reverb, filter, Tone.Destination);
+}).chain(reverb, filter, widener, Tone.Destination);
 
 const bassSynth = new Tone.MonoSynth({
   oscillator: { type: "sine" },
@@ -67,7 +72,7 @@ const bassSynth = new Tone.MonoSynth({
     attack: 0.05,
     decay: 0.1,
     sustain: 0.1,
-    release: 0.2,
+    release: 0.4,
   },
   filterEnvelope: {
     attack: 0.1,
@@ -77,18 +82,7 @@ const bassSynth = new Tone.MonoSynth({
     baseFrequency: 200,
     octaves: 2.6,
   },
-}).chain(Reverb, Tone.Destination);
-
-const squareClick = new Tone.Synth({
-  oscillator: {
-    type: "square",
-  },
-  envelope: {
-    attack: 0.001,
-    decay: 0.001,
-    sustain: 0,
-  },
-}).toDestination();
+}).chain(reverb, Tone.Destination);
 
 const sineClick = new Tone.Synth({
   oscillator: {
@@ -96,10 +90,16 @@ const sineClick = new Tone.Synth({
   },
   envelope: {
     attack: 0.001,
-    decay: 0.001,
+    decay: 0.1,
     sustain: 0,
   },
 }).toDestination();
+
+const pinkNoise = new Tone.Noise("pink").connect(filter).start(2);
+
+pinkNoise.volume.value = -30;
+
+pinkNoise.chain(autoFilter, reverb, Tone.Destination);
 
 new Tone.Loop((time) => {
   polySynth.triggerAttackRelease("E3", "2m", time, 0.8);
@@ -110,6 +110,12 @@ new Tone.Loop((time) => {
 new Tone.Loop((time) => {
   polySynth.triggerAttackRelease("E4", "2m", time, 0.8);
 }, "2m").start(2);
+new Tone.Loop((time) => {
+  polySynth.triggerAttackRelease("A2", "2m", time, 0.8);
+}, "2m").start(4);
+new Tone.Loop((time) => {
+  polySynth.triggerAttackRelease("E2", "2m", time, 0.8);
+}, "2m").start(6);
 
 new Tone.Sequence(
   (time, note) => {
@@ -122,39 +128,8 @@ new Tone.Sequence(
   (time, note) => {
     sineClick.triggerAttackRelease(note, "1m", time, 0.4);
   },
-  [
-    "E1",
-    ["E2", "E3"],
-    null,
-    "E1",
-    ["E1"[("E2", "C1")]],
-    null,
-    ["E1"[("D2", "C3")]],
-    null,
-  ]
+  ["E1", ["E2", "E3"], null, "E1", null, null, null, null]
 ).start(2);
-
-// new Tone.Sequence(
-//   (time, note) => {
-//     squareClick.triggerAttackRelease(note, "1m", time, 0.8);
-//   },
-//   [
-//     "E1",
-//     ["E2", "E3"],
-//     ["E1"[("D2", "C3")]],
-//     null,
-//     "E1",
-//     null,
-//     null,
-//     ["E1"[([("E2", [("E2", "C1")])], "C1")]],
-//   ]
-// ).start(6);
-
-const pinkNoise = new Tone.Noise("pink").connect(filter).start(2);
-
-pinkNoise.volume.value = -50;
-
-pinkNoise.chain(Reverb, Tone.Destination);
 
 let t = 0;
 
