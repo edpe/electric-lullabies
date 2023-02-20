@@ -36,11 +36,9 @@ const filterEnvelope = {
   release: 1000,
 };
 
-let polySynth;
-
 const FeedbackDelay = new Tone.FeedbackDelay("1m", 0.4);
 FeedbackDelay.wet.value = 0.5;
-const Reverb = new Tone.Reverb(4);
+const Reverb = new Tone.Reverb(1);
 
 const descendPolySynth = new Tone.PolySynth(Tone.Synth, {
   envelopeLong,
@@ -50,7 +48,7 @@ const descendPolySynth = new Tone.PolySynth(Tone.Synth, {
   vibratoAmount: 0.2,
 }).chain(Reverb, FeedbackDelay, Tone.Destination);
 
-polySynth = new Tone.PolySynth(Tone.DuoSynth, {
+const polySynth = new Tone.PolySynth(Tone.DuoSynth, {
   harmonicity: 1,
   volume: -30,
   voice0: {
@@ -70,7 +68,7 @@ polySynth = new Tone.PolySynth(Tone.DuoSynth, {
 
 const polySynthHigh = new Tone.PolySynth(Tone.DuoSynth, {
   harmonicity: 1,
-  volume: -10,
+  volume: -30,
   voice0: {
     oscillator: { type: "square" },
     envelope,
@@ -82,24 +80,6 @@ const polySynthHigh = new Tone.PolySynth(Tone.DuoSynth, {
     filterEnvelope,
   },
   vibratoRate: 1,
-  vibratoAmount: 0.2,
-  portamento: 1,
-}).chain(Reverb, FeedbackDelay, Tone.Destination);
-
-const polySynthHigher = new Tone.PolySynth(Tone.DuoSynth, {
-  harmonicity: 1,
-  volume: -10,
-  voice0: {
-    oscillator: { type: "sine" },
-    envelope,
-    filterEnvelope,
-  },
-  voice1: {
-    oscillator: { type: "sine" },
-    envelope,
-    filterEnvelope,
-  },
-  vibratoRate: 2,
   vibratoAmount: 0.2,
   portamento: 1,
 }).chain(Reverb, FeedbackDelay, Tone.Destination);
@@ -130,82 +110,82 @@ new Tone.Loop((time) => {
   polySynth.triggerAttackRelease("Ab5", "1m", time, 0.85);
 }, 17.7).start(3.1);
 new Tone.Loop((time) => {
-  polySynth.triggerAttackRelease("F2", "2m", time, 0.6);
+  polySynth.triggerAttackRelease("F2", "1m", time, 0.6);
 }, 32).start(32);
 new Tone.Loop((time) => {
-  polySynth.triggerAttackRelease("C2", "2m", time, 0.6);
+  polySynth.triggerAttackRelease("C2", "1m", time, 0.6);
 }, 32).start(32);
 new Tone.Loop((time) => {
-  descendPolySynth.triggerAttackRelease(scale[0], "2m", time, 0.1);
+  descendPolySynth.triggerAttackRelease(scale[0], "1m", time, 0.1);
 }, 28).start(32);
 new Tone.Loop((time) => {
-  descendPolySynth.triggerAttackRelease(scale[1], "2m", time, 0.1);
+  descendPolySynth.triggerAttackRelease(scale[1], "1m", time, 0.1);
 }, 28.1).start(36);
 new Tone.Loop((time) => {
-  descendPolySynth.triggerAttackRelease(scale[2], "2m", time, 0.1);
+  descendPolySynth.triggerAttackRelease(scale[2], "1m", time, 0.1);
 }, 28.2).start(40);
 new Tone.Loop((time) => {
-  descendPolySynth.triggerAttackRelease(scale[3], "2m", time, 0.1);
+  descendPolySynth.triggerAttackRelease(scale[3], "1m", time, 0.1);
 }, 28.3).start(44);
 new Tone.Loop((time) => {
-  descendPolySynth.triggerAttackRelease(scale[4], "2m", time, 0.1);
+  descendPolySynth.triggerAttackRelease(scale[4], "1m", time, 0.1);
 }, 28.4).start(48);
 new Tone.Loop((time) => {
-  descendPolySynth.triggerAttackRelease(scale[5], "2m", time, 0.1);
+  descendPolySynth.triggerAttackRelease(scale[5], "1m", time, 0.1);
 }, 28.5).start(52);
 new Tone.Loop((time) => {
-  descendPolySynth.triggerAttackRelease(scale[6], "2m", time, 0.1);
+  descendPolySynth.triggerAttackRelease(scale[6], "1m", time, 0.1);
 }, 28.6).start(56);
 new Tone.Loop((time) => {
-  descendPolySynth.triggerAttackRelease(scale[7], "2m", time, 0.1);
+  descendPolySynth.triggerAttackRelease(scale[7], "1m", time, 0.1);
 }, 28.7).start(60);
 new Tone.Loop((time) => {
-  polySynthHigh.triggerAttackRelease(scaleHigh[0], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigh[0], "1m", time, 0.1);
 }, 28).start(70);
 new Tone.Loop((time) => {
-  polySynthHigh.triggerAttackRelease(scaleHigh[1], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigh[1], "1m", time, 0.1);
 }, 28.1).start(74);
 new Tone.Loop((time) => {
-  polySynthHigh.triggerAttackRelease(scaleHigh[2], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigh[2], "1m", time, 0.1);
 }, 28.2).start(78);
 new Tone.Loop((time) => {
-  polySynthHigh.triggerAttackRelease(scaleHigh[3], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigh[3], "1m", time, 0.1);
 }, 28.3).start(82);
 new Tone.Loop((time) => {
-  polySynthHigh.triggerAttackRelease(scaleHigh[4], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigh[4], "1m", time, 0.1);
 }, 28.4).start(86);
 new Tone.Loop((time) => {
-  polySynthHigh.triggerAttackRelease(scaleHigh[5], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigh[5], "1m", time, 0.1);
 }, 28.5).start(90);
 new Tone.Loop((time) => {
-  polySynthHigh.triggerAttackRelease(scaleHigh[6], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigh[6], "1m", time, 0.1);
 }, 28.6).start(94);
 new Tone.Loop((time) => {
-  polySynthHigh.triggerAttackRelease(scaleHigh[7], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigh[7], "1m", time, 0.1);
 }, 42.7).start(98);
 new Tone.Loop((time) => {
-  polySynthHigher.triggerAttackRelease(scaleHigher[0], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigher[0], "1m", time, 0.1);
 }, 42).start(70);
 new Tone.Loop((time) => {
-  polySynthHigher.triggerAttackRelease(scaleHigher[1], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigher[1], "1m", time, 0.1);
 }, 42.1).start(72);
 new Tone.Loop((time) => {
-  polySynthHigher.triggerAttackRelease(scaleHigher[2], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigher[2], "1m", time, 0.1);
 }, 42.2).start(76);
 new Tone.Loop((time) => {
-  polySynthHigher.triggerAttackRelease(scaleHigher[3], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigher[3], "1m", time, 0.1);
 }, 42.3).start(78);
 new Tone.Loop((time) => {
-  polySynthHigher.triggerAttackRelease(scaleHigher[4], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigher[4], "1m", time, 0.1);
 }, 42.4).start(82);
 new Tone.Loop((time) => {
-  polySynthHigher.triggerAttackRelease(scaleHigher[5], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigher[5], "1m", time, 0.1);
 }, 42.5).start(84);
 new Tone.Loop((time) => {
-  polySynthHigher.triggerAttackRelease(scaleHigher[6], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigher[6], "1m", time, 0.1);
 }, 42.6).start(88);
 new Tone.Loop((time) => {
-  polySynthHigher.triggerAttackRelease(scaleHigher[7], "2m", time, 0.1);
+  polySynthHigh.triggerAttackRelease(scaleHigher[7], "1m", time, 0.1);
 }, 42.7).start(90);
 
 let x = 100;
